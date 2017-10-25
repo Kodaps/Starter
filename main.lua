@@ -18,10 +18,7 @@ local options =
 local textobject = display.newText(options)
 
 local colors = table.loadJson("assets/ui/colors.json", system.ResourceDirectory)
-
-for k,v in pairs(colors) do 
-	print(k..":"..tostring(v))
-end
-
 table.print(colors)
+
+
 

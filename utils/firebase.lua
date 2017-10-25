@@ -1,6 +1,8 @@
 -- Corona Firebase, a library to access firebaseio.com DBs from Corona SDK
 -- based applications
 
+-- https://github.com/vsergeyev/corona-firebase
+
 -- Copyright (C) 2015 Volodymyr Serheiev
 
 
