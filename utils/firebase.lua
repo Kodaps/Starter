@@ -1,6 +1,8 @@
 -- Corona Firebase, a library to access firebaseio.com DBs from Corona SDK
 -- based applications
 
+-- https://firebase.google.com/docs/reference/rest/auth/#section-create-email-password
+
 -- https://github.com/vsergeyev/corona-firebase
 
 -- Copyright (C) 2015 Volodymyr Serheiev
@@ -18,10 +20,19 @@ local lfs = require "lfs"
 -- https://www.firebase.com/docs/rest/api/#section-streaming
 -- https://github.com/CoronaGeek/Corona-SDK-JSON-Example/blob/master/main.lua
 
+local config = {
+    apiKey = "AIzaSyBV0DcbT2aVS4MjDvJ50JMpqVedmDgY-EM",
+    authDomain = "quizz-in.firebaseapp.com",
+    databaseURL = "https://quizz-in.firebaseio.com",
+    projectId = "quizz-in",
+    storageBucket = "quizz-in.appspot.com",
+    messagingSenderId = "108487549486"
+ };
 
 
 local Firebase = {
-	url = '',
+	url = config.databaseURL,
+	authUrl = 
 	authToken = ''
 }
 

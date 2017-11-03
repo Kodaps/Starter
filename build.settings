@@ -10,13 +10,17 @@ settings = {
 
 
 	plugins = {
+		["plugin.notifications.v2"] = { publisherId = "com.coronalabs" },
+        ['plugin.logger'] = {"publisherId = com.yogergames"},
     },
 
 	iphone = {
 		plist = {}
 	},
 
-    android = {
-    }
+	android =
+    {
+        useGoogleServicesJson = true,
+    },
 
 }
