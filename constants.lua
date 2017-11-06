@@ -6,8 +6,15 @@ local pfc = {
     ["Android"] = "android"; --(all Android devices)
 }
 
-platformName = system.getInfo( "platformName" )
+if (system) then
+	platformName = system.getInfo( "platformName" )
+else
+	platformName = "Win"
+end
+
 platformCode = pfc[platformName] or "none"
 
-screenW, screenH = display.contentWidth, display.contentHeight
-halfW, halfH = display.contentWidth*0.5, display.contentHeight*.5
+if (display) then
+	screenW, screenH = display.contentWidth, display.contentHeight
+	halfW, halfH = display.contentWidth*0.5, display.contentHeight*.5
+end
