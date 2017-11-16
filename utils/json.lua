@@ -1,3 +1,8 @@
+
+if (_corona) then
+  return require("json")
+end
+
 --
 -- json.lua
 --
