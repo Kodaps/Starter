@@ -29,7 +29,7 @@ function start(object)
     return
   end
 
-  local sq = display.newRect(0,halfH,30,30)
+  local sq = display.newRect(0,halfH,50,50)
   sq:setFillColor(unpack(blue))
   transition.to(sq, {time=3000, x=halfW, transition=ease, onComplete=remove})
 end
