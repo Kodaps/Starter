@@ -1,5 +1,7 @@
 local setup
 
+require('utils.table')
+
 http = require('utils.http')
 json = require('utils.json')
 
