@@ -1,37 +1,69 @@
 
+local groups = {}
+
+for i =1,8 do 
+	local group = display.newGroup()
+
+	local filename = "assets/bg/2/"..(9-i)..".png"
+
+	local prevImg = display.newImage(filename)
+	local img = display.newImage(filename)
+	local nextImg = display.newImage(filename)
 
 
-local sky = display.newRect(halfW, halfH, screenW, screenH)
+	local scale = screenH/img.height
+	img.xScale = scale
+	img.yScale = scale 
+	img.x = halfW
+	img.y = halfH
 
-sky.fill =  {
-    type = "gradient",
-    color1 = { 0,0,1 },
-    color2 = { 1,1,1 },
-    direction = "down"
-}
+	prevImg.xScale, prevImg.yScale = scale, scale 
+	nextImg.xScale, nextImg.yScale = scale, scale 
 
-local bg = display.newGroup()
+	nextImg.y = img.y 
+	prevImg.y = img.y 
 
-local game = display.newGroup()
+	print(i, screenW, img.width)
 
-local fore = display.newGroup()
+	prevImg.x = img.x - img.width * scale
+	nextImg.x = img.x + img.width * scale  
+	
+	
 
+	group:insert(img)
+	group:insert(nextImg)
+	group:insert(prevImg)
+	
+	group.depth = 10 - i 
+	
 
-local start = y
-local h1 = screenH*0.05
-local h2 = screenH*0.75
-
-while (bg.width < screenW*2 - 200) do
-  local sq = display.newRect(0,0,math.random(100,250), math.random(h1,h2))
-  sq.x = bg.width + sq.width/2
-  sq.y = screenH*0.85-sq.height/2
-  sq:setFillColor(0.2+math.random(10)/20)
-  bg:insert(sq)
+	table.insert(groups, group)
 end
 
-floor = display.newRect(game, halfW,screenH*0.90, screenW*2, screenH*0.2)
-floor:setFillColor(0.7)
+local v = 1
 
---while(fore.width < screenW*2) do
---
---end
+local previousTimestamp 
+
+local myListener = function( event )
+    
+    local currentTimestamp = event.time/1000
+	previousTimestamp = previousTimestamp or currentTimestamp
+	local elapsedtime = currentTimestamp - previousTimestamp 
+	previousTimestamp =currentTimestamp
+
+    for i = 1,8 do 
+    	local group = groups[i]
+    	group.x = group.x + v * (100 -  group.depth*10)*elapsedtime
+    end 
+
+    if groups[8].x > halfW then 
+    	v = -1
+    elseif groups[8].x < 0 then 
+    	v = 1
+    end 
+
+end
+
+Runtime:addEventListener( "enterFrame", myListener )
+
+
