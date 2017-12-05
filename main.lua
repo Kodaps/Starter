@@ -38,13 +38,31 @@ rect.anchorY = 1
 --image:setFillColor(1,0,0,0.4)
 
 
-circle = display.newCircle(halfW, halfH, halfW*0.2)
+-- circle = display.newCircle(halfW, halfH, halfW*0.2)
 
 
 sheetOptions = require("assets.gameassets.cars.cars")
 sheet = graphics.newImageSheet("assets/gameassets/cars/cars.png", sheetOptions:getSheet())
 
-local grp = display.newGroup()
+local grp1 = display.newGroup()
+c1 = display.newCircle(grp1, screenW*0.2, screenH*0.2, 20)
+c1:setFillColor(1,0,0)
+
+local grp2 = display.newGroup()
+grp2.anchorChildren = true 
+c2 = display.newCircle(grp2, screenW*0.2, screenH*0.2, 20)
+c2:setFillColor(0,0,1)
+
+grp1.x, grp2.x = halfW, halfW 
+grp1.y, grp2.y = halfH, halfH 
+ 
+
+
+
+
+
+
+--[[
 grp.anchorChildren = true 
 
 
@@ -75,6 +93,8 @@ grp.wheel2 = wheel2
 local done = 0
 
 local lastTime
+
+
 
 function grp:enterFrame(event)
 
@@ -107,5 +127,48 @@ end
 
 Runtime:addEventListener("enterFrame", grp)
 
+groups = {}
 
 
+
+--local container = display.newContainer(600,420)
+
+--container.x = halfW 
+--container.y = halfH 
+
+for i = 8,1, -1 do 
+
+	local grp = display.newGroup()
+	--container:insert(grp)
+	local img = display.newImage(grp, "assets/bg/2/"..i..".png")
+	local img2 = display.newImage(grp, "assets/bg/2/"..i..".png")
+	local img3 = display.newImage(grp, "assets/bg/2/"..i..".png")
+	
+	local scale = screenH/img.height 
+	
+	img.xScale = scale 
+	img.yScale = scale 
+
+	img2.xScale = scale 
+	img2.yScale = scale 
+	img3.xScale = scale 
+	img3.yScale = scale 
+
+	img.x = halfW 
+	img.y = screenH - scale*img.height/2
+
+	img2.y = img.y 
+	img3.y = img.y
+
+	img2.x = img.x - img.width*scale 
+	img3.x = img.x + img.width*scale
+		
+	groups[i] = grp 
+end 
+
+groups[3]:insert(grp)
+
+groups[8]:removeSelf()
+
+groups[8] = nil 
+]]
