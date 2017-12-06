@@ -5,6 +5,14 @@ local composer = require("composer")
 local scene = composer.newScene()
 
 
+function gotoScene(scene)
+	composer.gotoScene(scene, {
+		time=2000, 
+		effect ="fade"
+	})
+end 
+
+
 
 local function makeTextButton(options)
 
@@ -72,13 +80,14 @@ local options = {
 	params = {score = 53}
 }
 
-local ball 
 
 function done(obj)
 	if (obij) then 
 		print("obj.x = "..obj.x)
 	end 
 end 
+
+
 
 function Test()
 	
@@ -96,17 +105,12 @@ function scene:create(event)
 	end 
 	
 	options.onClick = gotoGame
-
-	ball = display.newCircle(scene.view, 0,0,30)
 	
 	local btn = makeTextButton(options)
 	scene.view:insert(btn)
 	btn.x = halfW 
 	btn.y = halfH 
-	
-	ball.y = btn.y 
-	ball.x = btn.x + 300
-	
+		
 	options.text = "Settings"
 	
 	local btn2 = makeTextButton(options)
@@ -114,8 +118,8 @@ function scene:create(event)
 	btn2.x = btn.x 
 	btn2.y = btn.y + btn.height/2 + 30 + btn2.height/2 	
 
-	options.text = "Test"
-	options.onClick = Test 
+	options.text = "About"
+	options.onClick = gotoScene 
 
 	local btn3 = makeTextButton(options)
 	scene.view:insert(btn3)
