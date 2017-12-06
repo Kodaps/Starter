@@ -1,5 +1,3 @@
-
-
 local composer = require("composer")
 
 local scene = composer.newScene()
@@ -42,10 +40,65 @@ function scene:create(event)
 	
 end 
 
+--[[
+local function loadJson(path, directory)
+
+	directory = directory or system.DocumentsDirectory
+	print(directory)
+	print(path)
+	local realPath = system.pathForFile(path, directory)
+	if not realPath then 
+		error("no such file : "..path)
+	end 
 	
+	local file, err = io.open(realPath, "r") -- "w"
+	
+	if not file then 
+		error(err)
+	else 
+		local data = file:read("*a")
+
+		if (data) then 
+			return json.decode(data)
+		end 
+	end 
+
+
+end
+]]
+
+
+	
+function scene:show(event)
+	if (event.phase == "will") then 
+	
+		local data = table.load("assets/particles/spark.json", system.ResourceDirectory)
+		if (data) then 
+			for k,v in pairs(data) do 
+				print(" data."..k..":"..v)
+		end 
+			local emitter = display.newEmitter(data, system.ResourceDirectory) 
+			emitter.x = halfW 
+			emitter.y = halfH 
+			emitter.alpha = 0.2
+			transition.to(emitter, {delay= 1000, time=1000, y = 100})
+		else 
+			error("no data returned")
+		end 
+	
+	
+	
+	
+	
+	end 
+
+end 
+
 	
 scene:addEventListener("create", scene )
 
+scene:addEventListener("show", scene )
+scene:addEventListener("hide", scene )
 
 
 return scene 
@@ -56,3 +109,4 @@ return scene
 
 
 
+	

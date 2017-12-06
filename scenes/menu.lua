@@ -1,9 +1,11 @@
 
 
 local composer = require("composer")
+local ui = require("scripts.ui")
 
 local scene = composer.newScene()
 
+local loc = require("scripts.loc")
 
 function gotoScene(scene)
 	composer.gotoScene(scene, {
@@ -12,7 +14,7 @@ function gotoScene(scene)
 	})
 end 
 
-
+--[[
 
 local function makeTextButton(options)
 
@@ -68,6 +70,7 @@ local function makeTextButton(options)
 	-- text 
 	-- onClick 
 end 
+]]
 
 
 local options = {
@@ -97,6 +100,15 @@ function Test()
 	print(ball.x)
 end 
 
+function scene:show(event)
+	if (event.phase == "will") then 
+		print(loc("play"))
+		self.btns[1]:setText(loc("play"))
+		self.btns[2]:setText(loc("settings"))
+		self.btns[3]:setText(loc("about"))
+	
+	end 
+end 
 
 function scene:create(event)
 
@@ -104,41 +116,60 @@ function scene:create(event)
 		composer.gotoScene("scenes.game")
 	end 
 	
-	options.onClick = gotoGame
+	local function gotoSettings()	
+		composer.gotoScene("scenes.settings")
+	end 
 	
-	local btn = makeTextButton(options)
+	self.btns = {}
+
+	options.onClick = gotoGame
+	options.text = loc("play")
+	
+	
+	local btn = ui:makeTextButton(options)
 	scene.view:insert(btn)
 	btn.x = halfW 
 	btn.y = halfH 
-		
-	options.text = "Settings"
 	
-	local btn2 = makeTextButton(options)
+	table.insert(self.btns, btn)
+		
+	options.text = loc("settings")
+	options.onClick = gotoSettings 
+	
+	local btn2 = ui:makeTextButton(options)
 	scene.view:insert(btn2)
 	btn2.x = btn.x 
 	btn2.y = btn.y + btn.height/2 + 30 + btn2.height/2 	
+	table.insert(self.btns, btn2)
 
 	options.text = "About"
 	options.onClick = gotoScene 
 
-	local btn3 = makeTextButton(options)
+	local btn3 = ui:makeTextButton(options)
 	scene.view:insert(btn3)
 	btn3.x = btn.x 
 	btn3.y = btn2.y + btn2.height/2 + 30 + btn3.height/2 	
+	table.insert(self.btns, btn3)
 
 
+	loc.test = 42
+	print("loc.test = "..tostring(loc.test))
 	
 end 
 
 
 function scene:hide(event)
 	if (event.phase == "did") then 
-		ball:removeSelf()
 	end 
 end 
 
+function scene:destroy(event)
+	self.btns = {}
+end 
 
 scene:addEventListener( "create", scene )
+scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
+scene:addEventListener( "destroy", scene )
 
 return scene 

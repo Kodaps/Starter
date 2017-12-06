@@ -3,6 +3,7 @@ _corona = false
 require("constants")
 --require("utils")
 --require("setup")
+require("scripts.tools")
 
 display.setDefault("background",0.3,0.3,0.3)
 
