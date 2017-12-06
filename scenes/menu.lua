@@ -120,6 +120,10 @@ function scene:create(event)
 		composer.gotoScene("scenes.settings")
 	end 
 	
+	local function gotoTest()
+		composer.gotoScene("scenes.test")
+	end 
+	
 	self.btns = {}
 
 	options.onClick = gotoGame
@@ -142,8 +146,8 @@ function scene:create(event)
 	btn2.y = btn.y + btn.height/2 + 30 + btn2.height/2 	
 	table.insert(self.btns, btn2)
 
-	options.text = "About"
-	options.onClick = gotoScene 
+	options.text = "TEST"
+	options.onClick = gotoTest 
 
 	local btn3 = ui:makeTextButton(options)
 	scene.view:insert(btn3)
