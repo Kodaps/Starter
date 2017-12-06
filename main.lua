@@ -11,4 +11,4 @@ print(" Max texture size on this device : ", system.getInfo( "maxTextureSize" ))
 --t = require("displayobjects")
 --t:showPage()
 
-require("exo.city1")
+require("exo.deplayprint")
