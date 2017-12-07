@@ -111,11 +111,18 @@ local function makeChar ()
             self:jump()
         end 
 
-        if (event.keyName == "left") then 
+
+        if (event.keyName == "down") then
+            self.down = (event.phase == "down")
+            --self:run(false, (event.phase == "down"))
+        end 
+
+
+        if (event.keyName == "left") then
             self:run(false, (event.phase == "down"))
         end 
 
-        if (event.keyName == "right") and (event.phase == "down") then 
+        if (event.keyName == "right") then 
             self:run(true, (event.phase == "down"))
         end 
         
@@ -129,6 +136,28 @@ local function makeChar ()
     return sprite
     
 end 
+
+local function makeCar(id)
+    id = id or 1
+    local names = {"truck","orc", "girl"}
+    name = names[id] or "truck"
+
+    local sheetOptions = require("assets.gameassets.cars.cars")
+    local sheet = graphics.newImageSheet("assets/gameassets/cars/cars.png", sheetOptions:getSheet())
+
+
+    local grp = display.newGroup()
+
+    local body = display.newImage( grp, sheet, sheetOptions:getFrameIndex(name.."Body"), 0, 0  )
+    local head = display.newImage( grp, sheet, sheetOptions:getFrameIndex(name.."Head"), 0, -body.height/2  )
+    local wheel1 = display.newImage( grp, sheet, sheetOptions:getFrameIndex(name.."Wheel"), -body.width/2, body.height/2  )
+    local wheel2 = display.newImage( grp, sheet, sheetOptions:getFrameIndex(name.."Wheel2"), body.width/2, body.height/2  )
+
+    grp.x = halfW
+    grp.y = halfH
+    return grp 
+end 
+
  
  
 function scene:show( event )
@@ -162,23 +191,121 @@ function scene:show( event )
             physics.addBody(img, "dynamic", {radius = img.width/2})
         end 
 
-        Runtime:addEventListener("tap", createBall)
+        --Runtime:addEventListener("tap", createBall)
+
+        
+        makeCar()
+
+        local rect = display.newRect(halfW, screenH*.25, 80, 80)
+        physics.addBody(rect, "static")
+
+        local prev = rect 
+
+        for i=1,10 do 
+            local r = display.newRect(halfW + i*40, screenH*.25, 35, 5)
+            physics.addBody(r)
+            local ropeJoint = physics.newJoint("rope", prev, r, 15, 0, -15, 0)
+            ropeJoint.maxLength = 15
+            prev = r 
+        end 
+
+
+        local touchJoint = physics.newJoint("touch", prev, prev.x, prev.y)
+
+
+        function prev:touch(event)
+
+            touchJoint:setTarget(event.x, event.y)
+
+        end 
+
+
+        Runtime:addEventListener("touch", prev)
+
+
+
+        -- distance 
+        --local rect2 = display.newRect(screenW*0.75, screenH*.25, 80, 80)
+        --physics.addBody(rect2, "dynamic")
+        --local distanceJoint = physics.newJoint("distance", rect, rect2, rect.x, rect.y, rect2.x, rect2.y)
+        --distanceJoint.dampingRatio = 0
+        --distanceJoint.frequencey = 10
+
+        --local rect2 = display.newRect(screenW*0.75, screenH*.25, 80, 80)
+        --physics.addBody(rect2, "dynamic")
+        --local ropeJoint = physics.newJoint("rope", rect, rect2) --, rect.x, rect.y, rect2.x, rect2.y)
+        --ropeJoint.maxLength = screenW*0.4
+        --ropeJoint.dampingRatio = 0
+        --ropeJoint.frequencey = 100
+
+
+
+
+
+
+        -- pivot joint : axe de rotation 
+        --local rect2 = display.newRect(screenW*0.6, screenH*.25, screenW*0.2, 20)
+        --physics.addBody(rect2, "dynamic")
+        -- local pivotJoint = physics.newJoint("pivot", rect, rect2, rect.x + 3*rect.width, rect.y)
+        -- pivotJoint.isLimitEnabled = true 
+        -- pivotJoint:setRotationLimits( -45, 45 )
+        -- moteur 
+        --pivotJoint.isMotorEnabled = true 
+        --pivotJoint.motorSpeed = 100 
+        --pivotJoint.maxMotorTorque = 10000
+
+        --local rect2 = display.newRect(halfW, screenH*.35, 80, 80)
+        --physics.addBody(rect2)
+        --local pistonJoint = physics.newJoint("piston", rect, rect2, rect.x, rect.y, 1,-1 )
+
+        --pistonJoint.isLimitEnabled = true 
+        --pistonJoint:setLimits(-200, 800)
+
+        --pistonJoint.isMotorEnabled = true 
+        --pistonJoint.motorSpeed = 100
+        --pistonJoint.maxMotorForce = 500
+
+
+
+
+
+
+
+
+        --[[
+
+        local char = makeChar()
+        physics.addBody(char, "dynamic", {
+
+            filter = { categoryBits= 1, maskBits = 0 },
+
+            box = {
+                halfWidth = char.contentWidth/2, 
+                halfHeight = char.contentHeight/2, 
+                x=0, 
+                y=0
+        }})
+
+
+        -- physics.setTimeScale()
+        -- physics.getTimeScale()
+
 
         
 
-        local char = makeChar()
-        physics.addBody(char, "dynamic", {box = {
-            halfWidth = char.contentWidth/2, 
-            halfHeight = char.contentHeight/2, 
-            x=0, 
-            y=0
-        }})
+
 
         local function collisionListener(event)
 
             if (event.other.isPlatform) and (event.contact) then 
                 table.print(event)
-                event.contact.isEnabled = false 
+                
+                event.contact.isEnabled = false
+
+                -- event.contact.bounce 
+                -- event.contact.friction 
+
+
             end 
 
 
@@ -193,12 +320,13 @@ function scene:show( event )
         physics.addBody(obj, "static")
         obj.isPlatform = true 
 
-
+        ]]
+        
         --, {
         --    chain = {-250, -50, -200, -40, 0, -50, 50, 0, 200, -10, 250, -50}, 
         --})
         
-
+    
 
         --[[
 
@@ -211,7 +339,7 @@ function scene:show( event )
         ]]
 
 
-        char.isFixedRotation = true
+        -- char.isFixedRotation = true
 
         -- char.isAwake 
         -- char.isSleepingAllowed 
