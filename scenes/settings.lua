@@ -83,7 +83,16 @@ function scene:create(event)
 		prefs[k] = prefs[k] or v 
 	end 
 	
+	local function onUpdate(pct )
+		-- setVolume 
+		print(pct)
+	end 
 	
+	
+	local slider = ui:makeCursor({width = 400, height = 50, onUpdate = onUpdate})
+	
+	slider.x = 200
+	slider.y = 100 
 	
 	-- print("vibration = "..pref.vibration)
 	

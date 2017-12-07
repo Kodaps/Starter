@@ -3,8 +3,10 @@ local loc = {}
 
 loc.en = {
 	appName = "Funky Game", 
-	play = "play",
-	settings = "settings"
+	play = "Play",
+	test = "Test",
+	settings = "Settings",
+	about ="About"
 }
 
 
@@ -14,7 +16,10 @@ local lang_mt = {
 
 loc.fr = {
 	appName = "Le Super Jeu", 
-	play = "jouer",
+	play = "Jouer",
+	test = "Test",
+	settings = "Réglages",
+	about="Présentation"
 }
 
 setmetatable(loc.fr, lang_mt)
