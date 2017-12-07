@@ -1,5 +1,41 @@
 local ui = {}
 
+local colors = table.load("assets/ui/colors.json", system.ResourceDirectory)
+
+
+local function hex2rgb(hex)
+
+
+	--string.sub(s, i, [j]) -> substring s des i à j 
+	-- s:sub(-1) = o 
+	-- j = j or s:len()
+	local r = tonumber("0x"..hex:sub(2,3))/255
+	local g = tonumber("0x"..hex:sub(4,5))/255
+	local b = tonumber("0x"..hex:sub(6,7))/255
+	return {r,g, b}
+
+end 
+
+
+
+for color,palette in pairs(colors) do 
+
+	for key, hexcode in pairs(palette) do 
+		colors[color][key] = hex2rgb(hexcode)
+
+	end 
+
+
+end 
+
+local function getColorUnpacked(name, key)
+	return unpack(colors[name or "orange"][key or "500"])
+end 
+
+
+
+
+
 
 function ui:makeCursor(options)
 
@@ -61,7 +97,7 @@ function ui:makeTextButton(options)
 	local width = options.width or 300 
 	local height = options.height or 30 
 	local radius = options.radius or 10 
-	local colors = options.colors or {0.5, 0.5, 0.5}
+	local colors = options.colors 
 	
 	local sound = options.sound --"asset/click.wav"
 	
@@ -69,6 +105,7 @@ function ui:makeTextButton(options)
 	local channel 
 		
 	local grp = display.newGroup()
+
 	grp.data = options
 
 	if (sound) then 
@@ -92,7 +129,12 @@ function ui:makeTextButton(options)
 		font = customFont  
 	}
 	
-	rect:setFillColor(unpack(colors))
+	if (colors) then 
+		rect:setFillColor(unpack(colors))
+	else 
+		rect:setFillColor(getColorUnpacked("orange", "500"))
+	end 
+
 	local txt = display.newText(opt)
 
 	grp.textField = txt 
@@ -109,8 +151,10 @@ function ui:makeTextButton(options)
 		
 		if (self.data.scene) then
 			local composer = require("composer")
-			composer.gotoScene(self.data.scene)		
+			composer.gotoScene(self.data.scene, self.data.params)		
 		end 
+
+		return true 
 	end 
 	
 	grp:addEventListener("tap", grp)

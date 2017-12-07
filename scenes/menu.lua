@@ -22,7 +22,7 @@ local h = screenH*0.1
 
 
 local buttons = {
-	{ width = w, height = h, radius = 10, colors = {0.4,0.7, 0.9}, text="play", scene="scenes.game"},
+	{ width = w, height = h, radius = 10, text="play", scene="scenes.game"},
 	{ width = w, height = h, radius = 10, colors = {0.4,0.7, 0.9}, text="settings", scene="scenes.settings"},
 	{ width = w, height = h, radius = 10, colors = {0.4,0.7, 0.9}, text="test", scene="scenes.test"},
 	{ width = w, height = h, radius = 10, colors = {0.4,0.7, 0.9}, text="about", scene="scenes.about"}

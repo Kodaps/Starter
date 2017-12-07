@@ -29,8 +29,18 @@ function scene:hide( event )
     local sceneGroup = self.view
     
     local phase = event.phase
-    if ( phase == "will" ) then
+    if ( phase == "will" ) then 
+
+
+
+
+
     elseif ( phase == "did" ) then
+
+
+
+
+
     end
 end
  
