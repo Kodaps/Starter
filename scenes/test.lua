@@ -68,7 +68,7 @@ local function makeChar ()
         --end 
         self:setSequence("jump")
         self:play()
-        self:applyLinearImpulse(0, -2.5, self.x,self.y)
+        self:applyLinearImpulse(0, -3, self.x,self.y)
     end 
 
     function sprite:run(right, on)
@@ -164,6 +164,8 @@ function scene:show( event )
 
         Runtime:addEventListener("tap", createBall)
 
+        
+
         local char = makeChar()
         physics.addBody(char, "dynamic", {box = {
             halfWidth = char.contentWidth/2, 
@@ -171,6 +173,43 @@ function scene:show( event )
             x=0, 
             y=0
         }})
+
+        local function collisionListener(event)
+
+            if (event.other.isPlatform) and (event.contact) then 
+                table.print(event)
+                event.contact.isEnabled = false 
+            end 
+
+
+        end 
+
+
+
+        char:addEventListener("preCollision", collisionListener)
+
+
+        local obj = display.newRect(halfW, screenH - 250, 500, 50)
+        physics.addBody(obj, "static")
+        obj.isPlatform = true 
+
+
+        --, {
+        --    chain = {-250, -50, -200, -40, 0, -50, 50, 0, 200, -10, 250, -50}, 
+        --})
+        
+
+
+        --[[
+
+        local _outline = graphics.newOutline(1, "assets/puzzle/piece1.png", system.ResourceDirectory)
+
+        local piece= display.newImage("assets/puzzle/piece1.png")
+        piece.x = piece.width/2 
+        piece.y = 0
+        physics.addBody(piece, "dynamic", {outline = _outline })
+        ]]
+
 
         char.isFixedRotation = true
 
