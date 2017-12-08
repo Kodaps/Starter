@@ -1,7 +1,7 @@
 
 local composer = require( "composer" )
 local physics = require("physics")
-
+local networkManager = require("scripts.networkmanager")
 local scene = composer.newScene()
 
 local elements
@@ -193,8 +193,61 @@ function scene:show( event )
 
         --Runtime:addEventListener("tap", createBall)
 
+
+        local function accel_listener(event)
         
-        makeCar()
+            table.print(event)
+
+            --event.xRaw 
+            --event.yRaw 
+            --event.zRaw
+            --event.xGravity 
+            --event.yGravity 
+            --event.zGravity 
+
+            physics.setGravity(event.xGravity, event.yGravity ) 
+
+        end 
+
+
+
+        -- notifications.getFrameIndexetDeviceToken() !"lkjdljqlkjdlkjqdlkjsdlkjsdlksqd"
+
+        networkManager.get("https://api.fixer.io/2000-01-03?symbols=USD,GBP", function(data) print(data) end)
+
+
+
+
+
+
+
+        --[[
+
+        local joystick = display.newCircle(halfW, halfH, 40)
+        joystick.fill = {1,0,0, 0.3}
+
+        function joystick:touch(event)
+
+            --(event)
+
+            joystick.x= event.x 
+            joystick.y = event.y 
+
+            event.xGravity = 10*(event.x - halfW) / halfW  
+            event.yGravity = -10*(event.y- halfH) / halfH
+
+            accel_listener(event)
+
+
+        end 
+
+        joystick:addEventListener("touch", joystick)        
+        Runtime:addEventListener("accelerometer", accel_listener)
+        ]]
+
+
+        
+        --makeCar()
 
         local rect = display.newRect(halfW, screenH*.25, 80, 80)
         physics.addBody(rect, "static")
@@ -210,17 +263,14 @@ function scene:show( event )
         end 
 
 
-        local touchJoint = physics.newJoint("touch", prev, prev.x, prev.y)
+        --local touchJoint = physics.newJoint("touch", prev, prev.x, prev.y)
+
+        --function prev:touch(event)
+         --   touchJoint:setTarget(event.x, event.y)
+        --end 
 
 
-        function prev:touch(event)
-
-            touchJoint:setTarget(event.x, event.y)
-
-        end 
-
-
-        Runtime:addEventListener("touch", prev)
+        --Runtime:addEventListener("touch", prev)
 
 
 
