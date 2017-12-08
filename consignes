@@ -1,8 +1,13 @@
-consignes 
+
+
+NB1 : A rendre pour le Mardi 19/12, 10h, Envoyer à : d.hockley@rubika-edu.com avec une copie à f.letiec@rubika-edu.com 
+
+
+Si vous avez des questions d'ici là n'hésitez pas.
+
+
+consignes : 
 ============
-
-
-
 
 1/ Si un nom n'a jamais été saisi : écran de bienvenue avec :
 
@@ -16,7 +21,7 @@ Si un nom a déjà été sauvegardé dans un lancement antérieur on passe direc
 
 2/ Ecran principal 
 
-Un nom d'appli/ de jeu en titre 
+Un nom d'appli (que vous choisirez)/ de jeu en titre 
 "Bonjour " + nom / "Hello " +  nom   
 
 - play 
