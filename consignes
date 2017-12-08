@@ -34,7 +34,7 @@ Avec un bouton back qui retourne au menu
 
 
 4/ Ecan settings :
-(Si vous avez le temps : 3 sliders qui définisssent les composantes RGB de la couleur de l'écran d'accueil ) 
+(Si vous avez le temps : 3 sliders qui définisssent les composantes RGB de la couleur de l'écran d'accueil, et qu'on sauvegarde ) 
 
 
 5/ écran jeu :
@@ -53,7 +53,7 @@ On va faire un "parcours d'obstacle" en voiture
 
  	- récupérez en http/REST une dizaine de valeurs (en prenant le cours GBP/EUR sur l'année de votre choix, et en scalant les valeurs pour que la plus petite fasse 1/10e de la hauteur de l'écran, et la plus grande 1/2 de l'écran ). STOCKEZ les valeurs dans un JSON en local pour pas faire une récupération à chaque lancement de jeu 
 
-	- créez des corps statiques avec les valeurs récupérez, dont on va faire des obstacles (murs statiques) posés au sol, d'une taille comprise 20% et 50% de la hauteur de l'écran 
+	- créez des corps statiques avec les valeurs récupérées, dont on va faire des obstacles (murs statiques) posés au sol, d'une taille comprise 20% et 50% de la hauteur de l'écran 
 
 	- en traçant avec le doigt sur la scène le joueur va pouvoir dessiner (et créer en physique) des lignes (qui suivent le tracé du doigt, et persistent) que la voiture pourra utiliser comme rampes pour passer les obstacles
 
