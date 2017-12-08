@@ -6,24 +6,59 @@ local physics = require("physics")
 local groups = {}
 
 local function makeCar(id)
-	id = id or 1
-	local names = {"truck","orc", "girl"}
-	name = names[id] or "truck"
+	
+    id = id or 1
+    local names = {"truck","orc", "girl"}
+    name = names[id] or "truck"
 
-	local sheetOptions = require("assets.gameassets.cars.cars")
-	local sheet = graphics.newImageSheet("assets/gameassets/cars/cars.png", sheetOptions:getSheet())
+    local sheetOptions = require("assets.gameassets.cars.cars")
+    local sheet = graphics.newImageSheet("assets/gameassets/cars/cars.png", sheetOptions:getSheet())
 
 
-	local grp = display.newGroup()
+	local scale = 0.3
 
-	local body = display.newImage( grp, sheet, sheetOptions:getFrameIndex(name.."Body"), 0, 0  )
-	local head = display.newImage( grp, sheet, sheetOptions:getFrameIndex(name.."Head"), 0, -body.height/2  )
-	local wheel1 = display.newImage( grp, sheet, sheetOptions:getFrameIndex(name.."Wheel"), -body.width/2, body.height/2  )
-	local wheel2 = display.newImage( grp, sheet, sheetOptions:getFrameIndex(name.."Wheel2"), body.width/2, body.height/2  )
+	local car = {}
 
-	grp.x = halfW
-	grp.y = halfH
-	return grp 
+	car.body = display.newImage( sheet, sheetOptions:getFrameIndex(name.."Body"), 0, 0)
+
+	print(car.body)
+
+	car.head = display.newImage( sheet, sheetOptions:getFrameIndex(name.."Head"), 0, 0  )
+	car.wheel1 = display.newImage( sheet, sheetOptions:getFrameIndex(name.."Wheel"), 0,0 )
+	car.wheel2 = display.newImage( sheet, sheetOptions:getFrameIndex(name.."Wheel2"), 0,0  )
+
+	car.body.xScale = scale 
+	car.body.yScale = scale 
+	car.head.xScale = scale 
+	car.head.yScale = scale 
+	car.wheel1.xScale = scale 
+	car.wheel1.yScale = scale 
+	car.wheel2.xScale = scale 
+	car.wheel2.yScale = scale 
+
+	car.wheel1.alpha = 0.7
+	car.wheel2.alpha = 0.7 
+
+	car.body.x = halfW 
+	car.body.y = halfH
+
+
+	car.head.x, car.head.y = car.body.x, car.body.y - car.body.contentHeight*.5
+	car.wheel1.x, car.wheel1.y = car.body.x -car.body.contentWidth*.4, car.body.y + car.body.contentHeight*.4 
+	car.wheel2.x, car.wheel2.y = car.body.x + car.body.contentWidth*.4, car.body.y + car.body.contentHeight*.4 
+
+
+	--[[
+	car.head = display.newImage( sheet, sheetOptions:getFrameIndex(name.."Head"), 0, -car.body.contentHeight/2  )
+	car.wheel1 = display.newImage( sheet, sheetOptions:getFrameIndex(name.."Wheel"), -car.body.contentWidth/2, car.body.contentHeight/2  )
+	car.wheel2 = display.newImage( sheet, sheetOptions:getFrameIndex(name.."Wheel2"), car.body.contentWidth/2, car.body.contentHeight/2  )
+
+	]]
+
+
+	return car 
+
+
 end 
 
 local function makeChar ()
@@ -175,13 +210,13 @@ function scene:create(event)
 
 	end 
 	
-	local platform = display.newRect(halfW, halfH, screenW*0.3, 40)
-	physics.addBody(platform, "static")
+	--local platform = display.newRect(halfW, halfH, screenW*0.3, 40)
+	--physics.addBody(platform, "static")
 	
-	local car = makeCar(2)
+	local car = makeCar()
 	
-	local char = makeChar()
-	physics.addBody(char, "dynamic", {bounce = 0, box = {halfWidth = .35*char.contentWidth, halfHeight = .5*char.contentHeight}})
+	--local char = makeChar()
+	--physics.addBody(char, "dynamic", {bounce = 0, box = {halfWidth = .35*char.contentWidth, halfHeight = .5*char.contentHeight}})
 	--char.isFixedRotation = true 
 end 
 

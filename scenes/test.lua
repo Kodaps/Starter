@@ -169,29 +169,89 @@ function scene:show( event )
 
         print("in test")
         physics.start(false) -- true  : disables sleep mode which allows to change gravity dynamically 
-        physics.setDrawMode("hybrid")
+        -- physics.setDrawMode("hybrid")
 
         physics.setGravity(0, 9.8)
 
         local height = 20
+
         local floor = display.newRect(halfW, screenH - height, screenW, height )
         floor:setFillColor(1)
-
-
         physics.addBody(floor, "static") -- "dynamic", "kinematic"
 
 
-        local function createCrate()
-            local img = display.newImage("assets/physics/crate.png", screenW*0.25 + math.random(halfW), 100)
-            physics.addBody(img)
+        local wall = display.newRect(screenW - 10 , halfH, 20, screenH )
+        wall:setFillColor(1)
+        physics.addBody(wall, "static") -- "dynamic", "kinematic"
+        
+        local wall2 = display.newRect(10 , halfH, 20, screenH )
+        wall2:setFillColor(1)
+        physics.addBody(wall2, "static") -- "dynamic", "kinematic"
+        
+        --[[
+
+        local options = {
+            filename = "assets/particles/spark.png",
+            baseDir = system.ResourceDirectory, 
+            imageRadius = 20, 
+            radius = 10, 
+            destroyByAge = true, 
+            maxCount = 5000,
+            blandMode= "multiply"
+        }
+
+
+        local particleSystem = physics.newParticleSystem(options)
+
+
+        local x, y 
+        local touchOn = false 
+        local r,g,b 
+
+        local function onEnterFrame() 
+            if (touchOn) then 
+                particleSystem:createParticle({
+                    x = x, 
+                    y = y,
+                    velocityX = 5, 
+                    velocityY = 0, 
+                    color = { r, g, b},
+                    flags = {"powder" , "colorMixing"}
+                })
+            end 
+         end 
+
+
+         Runtime:addEventListener("enterFrame", onEnterFrame)
+
+        local mask = display.newRect(halfW, halfH, screenW, screenH)
+        mask.fill = {0,0,0,0.01}
+
+
+         function mask:touch(event)
+
+            print(event.phase)
+
+            if (event.phase == "began") then 
+                touchOn = true 
+                r = 0.3 + math.random()*0.5
+                g = 0.3 + math.random()*0.5 
+                b = 0.3 + math.random()*0.5 
+            end 
+
+
+            if (event.phase == "ended") then 
+                touchOn = false 
+            end 
+
+            x = event.x 
+            y = event.y 
+
         end 
 
-        local function createBall(event)
-            local img = display.newImage("assets/physics/coconut.png", event.x, event.y)
-            physics.addBody(img, "dynamic", {radius = img.width/2})
-        end 
 
-        --Runtime:addEventListener("tap", createBall)
+        mask:addEventListener("touch", mask)
+
 
 
         local function accel_listener(event)
@@ -209,19 +269,6 @@ function scene:show( event )
 
         end 
 
-
-
-        -- notifications.getFrameIndexetDeviceToken() !"lkjdljqlkjdlkjqdlkjsdlkjsdlksqd"
-
-        networkManager.get("https://api.fixer.io/2000-01-03?symbols=USD,GBP", function(data) print(data) end)
-
-
-
-
-
-
-
-        --[[
 
         local joystick = display.newCircle(halfW, halfH, 40)
         joystick.fill = {1,0,0, 0.3}
@@ -242,12 +289,50 @@ function scene:show( event )
         end 
 
         joystick:addEventListener("touch", joystick)        
-        Runtime:addEventListener("accelerometer", accel_listener)
+        -- Runtime:addEventListener("accelerometer", accel_listener)
+
+
         ]]
+
+        --[[
+
+        local function createCrate()
+            local img = display.newImage("assets/physics/crate.png", screenW*0.25 + math.random(halfW), 100)
+            physics.addBody(img)
+        end 
+
+        local function createBall(event)
+            local img = display.newImage("assets/physics/coconut.png", event.x, event.y)
+            physics.addBody(img, "dynamic", {radius = img.width/2})
+        end 
+
+        --Runtime:addEventListener("tap", createBall)
+
+
+
+        ]]
+
+        -- notifications.getFrameIndexetDeviceToken() !"lkjdljqlkjdlkjqdlkjsdlkjsdlksqd"
+
+
+        -- loop sur 2016 
+        -- prendre la valeur des deux monnaies au 15 de chaque mois
+        -- tracer deux lignes qui montrent l'historique de ces valeurs 
+
+        -- display.newLine(x1, y1, x2, y2, x3, y3..)  
+
+        networkManager.get("https://api.fixer.io/2000-01-03?symbols=USD,GBP", function(data) print(data) end)
+
+
+
+
+
+
+
 
 
         
-        --makeCar()
+        makeCar()
 
         local rect = display.newRect(halfW, screenH*.25, 80, 80)
         physics.addBody(rect, "static")

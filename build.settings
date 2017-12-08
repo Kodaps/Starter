@@ -16,12 +16,19 @@ settings = {
     },
 
 	iphone = {
-		plist = {}
+		plist = {
+
+		}
 	},
 
 	android =
     {
         useGoogleServicesJson = true,
+        usesPermissions = {
+        	"android.permissions.ACCES_FINE_LOCATION",
+        	"android.permissions.ACCES_COARSE_LOCATION"
+
+        }
     },
 
 }
